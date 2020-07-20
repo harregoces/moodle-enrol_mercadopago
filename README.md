@@ -1,4 +1,4 @@
-Moodle "Enrollment Mercado Pago"
+Moodle Enrollment MercadoPago ![screenshot](pix/icon.png "logo")
 ===============================
 
 Arrby Mercado Pago Enrollment is a enrolment plugin that allow mercadopago payment.
