@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="enrol/mercadopago/db" VERSION="20180625" COMMENT="XMLDB file for Moodle enrol/mercadopago"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="enrol_mercadopago" COMMENT="Holds all known information about mercadopago transactions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timeupdated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="payment_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="external_reference" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="payment_status" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="status_detail" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="date_created" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="date_last_update" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="date_approved" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="money_release_date" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="currency" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="transaction_amount" TYPE="number" LENGTH="13" DECIMALS="4" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="transaction_amount_refunded" TYPE="number" LENGTH="10" DECIMALS="5" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="collection_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="payment_method_id" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="payment_type_id" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="merchant_order_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="merchant_order_status" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="merchant_preference_id" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="merchant_order_order_status" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="enrol" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="payment_id" UNIQUE="false" FIELDS="payment_id"/>
+        <INDEX NAME="collection_id" UNIQUE="false" FIELDS="collection_id"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
