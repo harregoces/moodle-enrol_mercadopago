@@ -12,8 +12,6 @@ Arrby Mercado Pago Enrollment is a enrolment plugin that allow mercadopago payme
 Documentation
 =============
 
-Placeholder replacement
-
 For sandbox testing use the following variables
 - $CFG->usemercadopagosandbox = true
 - $CFG->mercadopagosandbox_email = 'emailtest@test.com'
