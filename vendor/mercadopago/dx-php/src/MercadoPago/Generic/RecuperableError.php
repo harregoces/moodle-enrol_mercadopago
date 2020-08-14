@@ -27,11 +27,13 @@ class RecuperableError {
         if(isset($causes['code']) && isset($causes['description'])){
             $this->add_cause($causes['code'], $causes['description']);
         }else{
-            foreach ($causes as $cause){
-                if(is_array($cause) && (!isset($cause['code']) && !isset($cause['description']))){
-                    $this->proccess_causes($cause);
-                }else{
-                    $this->add_cause($cause['code'], $cause['description']);
+            if (isset($causes)) {
+                foreach ($causes as $cause){
+                    if(is_array($cause) && (!isset($cause['code']) && !isset($cause['description']))){
+                        $this->proccess_causes($cause);
+                    }else{
+                        $this->add_cause($cause['code'], $cause['description']);
+                    }
                 }
             }
         }
