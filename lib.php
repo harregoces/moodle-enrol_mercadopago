@@ -207,10 +207,9 @@ class enrol_mercadopago_plugin extends enrol_plugin {
                 } else {
 	                $useremail       = $USER->email;
                 }
-
                 $userphone       = $USER->phone1;
-                $type_id         = $USER->profile->type_dni;
-                $dni             = $USER->profile->dni;
+                $type_id         = $USER->profile['type_dni'];
+                $dni             = $USER->profile['dni'];
                 $useraddress     = $USER->address;
                 $usercity        = $USER->city;
                 $instancename    = $this->get_instance_name($instance);
