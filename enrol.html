@@ -1,5 +1,14 @@
 <div align="center">
-
+<?php
+    switch ($instance->currency) {
+        case "COP":
+            $mercadoPagoUrl = "www.mercadopago.com.co";
+            break;
+        case "ARS":
+            $mercadoPagoUrl = "www.mercadopago.com.ar";
+            break;
+    }
+?>
 <p><?php print_string("paymentrequired") ?></p>
 <p><b><?php echo $instancename; ?></b></p>
 <p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
@@ -10,7 +19,7 @@
 ?>
 <form action="/enrol/mercadopago/ipn_post-processor.php" method="post">
     <script
-            src="https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js"
+            src="https://<?php echo $mercadoPagoUrl; ?>/integrations/v1/web-payment-checkout.js"
             data-button-label="<?php print_string('sendpaymentbutton', 'enrol_mercadopago') ?>"
             data-preference-id="<?php echo $preference->id; ?>">
     </script>
