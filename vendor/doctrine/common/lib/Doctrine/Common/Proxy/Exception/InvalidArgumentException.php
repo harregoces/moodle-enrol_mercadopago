@@ -1,7 +1,7 @@
 <?php
 namespace Doctrine\Common\Proxy\Exception;
 
-use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Persistence\Proxy;
 use InvalidArgumentException as BaseInvalidArgumentException;
 
 /**
@@ -10,8 +10,6 @@ use InvalidArgumentException as BaseInvalidArgumentException;
  * @link   www.doctrine-project.org
  * @since  2.4
  * @author Marco Pivetta <ocramius@gmail.com>
- *
- * @deprecated The Doctrine\Common\Proxy component is deprecated, please use ocramius/proxy-manager instead.
  */
 class InvalidArgumentException extends BaseInvalidArgumentException implements ProxyException
 {
@@ -104,3 +102,5 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements P
         return new self(sprintf('Invalid auto generate mode "%s" given.', $value));
     }
 }
+
+interface_exists(Proxy::class);

@@ -14,6 +14,7 @@ class ComposerStaticInit3a97246607f5477d5bd326ba29317a6b
         'D' => 
         array (
             'Doctrine\\Persistence\\' => 21,
+            'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Lexer\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Collections\\' => 28,
@@ -35,6 +36,10 @@ class ComposerStaticInit3a97246607f5477d5bd326ba29317a6b
         'Doctrine\\Persistence\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Persistence',
+        ),
+        'Doctrine\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
@@ -58,11 +63,15 @@ class ComposerStaticInit3a97246607f5477d5bd326ba29317a6b
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
-            1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
-            2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
-            3 => __DIR__ . '/..' . '/doctrine/reflection/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
+            1 => __DIR__ . '/..' . '/doctrine/reflection/lib/Doctrine/Common',
+            2 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            3 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
         ),
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -70,6 +79,7 @@ class ComposerStaticInit3a97246607f5477d5bd326ba29317a6b
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3a97246607f5477d5bd326ba29317a6b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3a97246607f5477d5bd326ba29317a6b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3a97246607f5477d5bd326ba29317a6b::$classMap;
 
         }, null, ClassLoader::class);
     }

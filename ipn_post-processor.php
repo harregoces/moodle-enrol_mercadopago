@@ -44,11 +44,13 @@ if (!enrol_is_enabled('mercadopago')) {
 }
 
 /// Keep out casual intruders
-if (empty($_POST['back_url']) || empty($_POST['payment_id'])) {
+$back_url = required_param('back_url', PARAM_ALPHAEXT);
+$payment_id = required_param('payment_id', PARAM_INT);
+if (empty($_POST) or !empty($_GET)) {
 	http_response_code(400);
 	throw new moodle_exception('invalidrequest', 'core_error');
 }
 
 
 //Clear cache and redirect
-redirect($_POST['back_url']);
+redirect($back_url);

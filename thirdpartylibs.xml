@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>vendor/mercadopago</location>
+    <name>mercadopago/dx-php</name>
+    <license>MIT</license>
+    <version>2.2.1</version>
+    <licenseversion></licenseversion>
+  </library>
+</libraries>

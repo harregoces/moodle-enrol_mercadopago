@@ -95,16 +95,7 @@ class Manager
         $configuration_vars = $this->_config->all();
 
         foreach($options as $option => $value) {
-            switch ($option) {
-                case "custom_access_token":
-                if (array_key_exists($value, $configuration_vars)) {
-                    $configuration->query["url_query"]["access_token"] = $configuration_vars[$value];
-                } else {
-                    $configuration->query["url_query"]["access_token"] = $value;
-                }
-                default:
-                    $configuration->query["url_query"][$option] = $value;
-            }
+            $configuration->query["url_query"][$option] = $value;
         }
     }
 
@@ -273,23 +264,20 @@ class Manager
     public function setQueryParams($entity, $urlParams = [])
     {
         $configuration = $this->_getEntityConfiguration($entity);
-        $params = [];
-
-       
 
         if (!isset($configuration->query) || !isset($configuration->query['url_query'])) {
-            $configuration->query['url_query'] = $params;
+            $configuration->query['url_query'] = [];
         }
+
+        $params = [];
         if (isset($configuration->params)) {
             foreach ($configuration->params as $value) {
                 $params[$value] = $this->_config->get(strtoupper($value));
             }
-            if (count($params) > 0) {
-                $arrayMerge = array_merge($urlParams, $params, $configuration->query['url_query']);
-                $configuration->query['url_query'] = $arrayMerge;
-            }
         }
-        
+
+        $arrayMerge = array_merge($urlParams, $params, $configuration->query['url_query']);
+        $configuration->query['url_query'] = $arrayMerge;
     }
     /**
      * @param $entity

@@ -44,16 +44,16 @@ if (!enrol_is_enabled('mercadopago')) {
 }
 
 /// Keep out casual intruders
-if (empty($_GET['collection_id'])) {
+if (empty($_POST) or !empty($_GET)) {
 	http_response_code(400);
 	throw new moodle_exception('invalidrequest', 'core_error');
 }
 
 $data = new stdClass();
-$data->userid = (int)$_GET['userid'];
-$data->courseid = (int)$_GET['courseid'];
-$data->instanceid = (int)$_GET['instanceid'];
-$data->collection_id = $_GET['collection_id'];
+$data->userid = required_param('userid', PARAM_INT);
+$data->courseid = required_param('courseid', PARAM_INT);
+$data->instanceid = required_param('instanceid', PARAM_INT;
+$data->collection_id = required_param('collection_id', PARAM_INT);
 $data->timeupdated = time();
 
 $user = $DB->get_record("user", array("id" => $data->userid), "*", MUST_EXIST);
@@ -66,7 +66,7 @@ $plugin_instance = $DB->get_record("enrol", array("id" => $data->instanceid, "en
 $plugin = enrol_get_plugin('mercadopago');
 
 MercadoPago\SDK::setAccessToken($plugin->get_config('access_token'));
-$payment = MercadoPago\Payment::find_by_id($_GET["collection_id"]);
+$payment = MercadoPago\Payment::find_by_id($data->collection_id);
 $merchant_order = MercadoPago\MerchantOrder::find_by_id($payment->order->id);
 
 $external_reference = $merchant_order->external_reference;
