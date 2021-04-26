@@ -5,15 +5,25 @@
 <p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
 <p><img alt="<?php print_string('accepted', 'enrol_mercadopago') ?>" src="<?php echo "$CFG->wwwroot/enrol/mercadopago/pix/mercadopago.png"?>" /></p>
 <p><?php print_string("paymentinstant") ?></p>
-<?php
-    $url = empty($CFG->usemercadopagosandbox) ? $preference->init_point : $preference->sandbox_init_point;
-?>
-<form action="/enrol/mercadopago/ipn_post-processor.php" method="post">
-    <script
-            src="https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js"
-            data-button-label="<?php print_string('sendpaymentbutton', 'enrol_mercadopago') ?>"
-            data-preference-id="<?php echo $preference->id; ?>">
-    </script>
-</form>
+
+<div class="cho-container">
+</div>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+    // Add the SDK credentials
+    const mp = new MercadoPago('<?php echo $public_key; ?>');
+
+    // Initialize the checkout
+    mp.checkout({
+        preference: {
+            id: '<?php echo $preference->id; ?>'
+        },
+        render: {
+            container: '.cho-container',
+            label: 'Pagar',
+        }
+    });
+</script>
 
 </div>

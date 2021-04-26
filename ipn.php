@@ -44,7 +44,7 @@ if (!enrol_is_enabled('mercadopago')) {
 }
 
 /// Keep out casual intruders
-if (empty($_POST) or !empty($_GET)) {
+if (!empty($_POST) or empty($_GET)) {
 	http_response_code(400);
 	throw new moodle_exception('invalidrequest', 'core_error');
 }
@@ -52,7 +52,7 @@ if (empty($_POST) or !empty($_GET)) {
 $data = new stdClass();
 $data->userid = required_param('userid', PARAM_INT);
 $data->courseid = required_param('courseid', PARAM_INT);
-$data->instanceid = required_param('instanceid', PARAM_INT;
+$data->instanceid = required_param('instanceid', PARAM_INT);
 $data->collection_id = required_param('collection_id', PARAM_INT);
 $data->timeupdated = time();
 
@@ -67,9 +67,8 @@ $plugin = enrol_get_plugin('mercadopago');
 
 MercadoPago\SDK::setAccessToken($plugin->get_config('access_token'));
 $payment = MercadoPago\Payment::find_by_id($data->collection_id);
-$merchant_order = MercadoPago\MerchantOrder::find_by_id($payment->order->id);
 
-$external_reference = $merchant_order->external_reference;
+$external_reference = $payment->external_reference;
 $data->external_reference = $external_reference;
 $external_reference = explode("-",$external_reference);
 
@@ -91,23 +90,14 @@ $data->date_last_update = strtotime($payment->date_last_updated);
 $data->date_approved = strtotime($payment->date_approved);
 $data->money_release_date = strtotime($payment->money_release_date);
 $data->currency = $payment->currency_id;
-$data->transaction_amount = $merchant_order->total_amount;
+$data->transaction_amount = $payment->transaction_amount;
 $data->transaction_amount_refunded = $payment->transaction_amount_refunded;
 $data->payment_method_id = $payment->payment_method_id;
 $data->payment_type_id = $payment->payment_type_id;
-$data->merchant_order_id = $merchant_order->id;
-$data->merchant_order_status = $merchant_order->status;
-$data->merchant_preference_id = $merchant_order->preference_id;
-$data->merchant_order_order_status = $merchant_order->order_status;
+$data->merchant_order_id = $payment->order->id;
+$data->payment_status = $payment->status;
 
-$paid_amount = 0;
-foreach ($merchant_order->payments as $payment) {
-	if ($payment->status == 'approved') {
-		$paid_amount += $payment->transaction_amount;
-	}
-}
-
-if ($paid_amount >= $merchant_order->total_amount) {
+if ($payment->transaction_details->total_paid_amount >= $payment->transaction_amount) {
 
 	if ($data->payment_status != "approved") {
 		$plugin->unenrol_user($plugin_instance, $data->userid);
@@ -124,7 +114,7 @@ if ($paid_amount >= $merchant_order->total_amount) {
 		die;
 	}
 
-	if ($merchant_order->status == "opened" and $merchant_order->order_status == "payment_required") {
+	if ($payment->status == "opened") {
 		$eventdata = new \core\message\message();
 		$eventdata->courseid = empty($data->courseid) ? SITEID : $data->courseid;
 		$eventdata->modulename = 'moodle';
@@ -269,7 +259,4 @@ if ($paid_amount >= $merchant_order->total_amount) {
 	//Clear cache and redirect
 	redirect(new moodle_url('/course/view.php', array('id'=>$course->id)));
 
-} else if (strcmp($result, "INVALID") == 0) { // ERROR
-	$DB->insert_record("enrol_mercadopago", $data, false);
-	throw new moodle_exception('erripninvalid', 'enrol_mercadopago', '', null, json_encode($data));
 }

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 class enrol_mercadopago_plugin extends enrol_plugin {
 
     public function get_currencies() {
-        $codes = array('COP');
+        $codes = array('COP', 'ARS');
         $currencies = array();
         foreach ($codes as $c) {
             $currencies[$c] = new lang_string($c, 'core_currencies');
@@ -196,6 +196,8 @@ class enrol_mercadopago_plugin extends enrol_plugin {
                 echo '<p><a href="'.$wwwroot.'/login/">'.get_string('loginsite').'</a></p>';
                 echo '</div>';
             } else {
+                $public_key = $this->get_config('public_key');
+
                 $coursefullname  = format_string($course->fullname, true, array('context'=>$context));
                 $courseshortname = $shortname;
                 $userfullname    = fullname($USER);
@@ -208,11 +210,6 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 	                $useremail       = $USER->email;
                 }
 
-                $userphone       = $USER->phone1;
-                $type_id         = $USER->profile->type_dni;
-                $dni             = $USER->profile->dni;
-                $useraddress     = $USER->address;
-                $usercity        = $USER->city;
                 $instancename    = $this->get_instance_name($instance);
 
 	            // Agrega credenciales
@@ -223,22 +220,6 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 	            $payer->name = $userfirstname;
 	            $payer->surname = $userlastname;
 	            $payer->email = $useremail;
-	            $payer->date_created = userdate($USER->timecreated);
-	            $payer->phone = array(
-		            "area_code" => "",
-		            "number" => $userphone
-	            );
-
-	            $payer->identification = array(
-		            "type" => $type_id,
-		            "number" => $dni
-	            );
-
-	            $payer->address = array(
-		            "street_name" => $useraddress,
-		            "street_number" => "",
-		            "zip_code" => ""
-	            );
 
 				// Crea un ítem en la preferencia
 	            $item = new MercadoPago\Item();
@@ -247,7 +228,7 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 	            $item->description = $coursefullname;
 	            $item->quantity = 1;
 	            $item->currency_id = $instance->currency;
-	            $item->unit_price = $cost;
+	            $item->unit_price = (int) $cost;
 	            $preference->items = array($item);
 	            $url = $CFG->wwwroot."/enrol/mercadopago/ipn.php?instanceid=".$instance->id."&userid=".$USER->id."&courseid=".$course->id;
 	            $preference->back_urls = array(
@@ -255,10 +236,8 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 		            "failure" => $url."&status=failure",
 		            "pending" => $url."&status=pending"
 	            );
-	            $preference->auto_return = "approved";
-	            $preference->notification_url = $url;
+                $preference->auto_return = "approved";
 			    $preference->external_reference =  $course->id."-".$USER->id."-".$instance->id;
-	            $preference->binary_mode = true;
 	            $preference->payer = $payer;
 	            $preference->save();
 
