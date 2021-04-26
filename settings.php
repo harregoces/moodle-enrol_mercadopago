@@ -32,6 +32,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('enrol_mercadopago_settings', '', get_string('pluginname_desc', 'enrol_mercadopago')));
 
     $settings->add(new admin_setting_configtext('enrol_mercadopago/access_token', get_string('access_token', 'enrol_mercadopago'), get_string('access_token_desc', 'enrol_mercadopago'), '', PARAM_TEXT));
+    $settings->add(new admin_setting_configtext('enrol_mercadopago/public_key', get_string('public_key', 'enrol_mercadopago'), get_string('public_key_desc', 'enrol_mercadopago'), '', PARAM_TEXT));
 
     $settings->add(new admin_setting_configcheckbox('enrol_mercadopago/mailstudents', get_string('mailstudents', 'enrol_mercadopago'), '', 0));
 
