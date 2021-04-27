@@ -26,8 +26,8 @@
 $string['assignrole'] = 'Assign role';
 $string['access_token'] = 'Mercado Pago Access Token';
 $string['access_token_desc'] = 'The access token from your Mercado Pago account';
-$string['access_token'] = 'Mercado Pago Public Key';
-$string['access_token_desc'] = 'The public key from your Mercado Pago account';
+$string['public_key'] = 'Mercado Pago Public Key';
+$string['public_key_desc'] = 'The public key from your Mercado Pago account';
 $string['cost'] = 'Enrol cost';
 $string['costerror'] = 'The enrolment cost is not numeric';
 $string['costorkey'] = 'Please choose one of the following methods of enrolment.';
