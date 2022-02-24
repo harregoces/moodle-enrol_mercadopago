@@ -319,6 +319,19 @@ class enrol_mercadopago_plugin extends enrol_plugin {
         return $roles;
     }
 
+    /**
+     * Return an array of valid options for the expirynotify.
+     *
+     * @return array
+     */
+    protected function get_expirynotify_options() {
+        $options = array(
+            0 => get_string('no'),
+            1 => get_string('expirynotifyenroller', 'core_enrol'),
+            2 => get_string('expirynotifyall', 'core_enrol')
+        );
+        return $options;
+    }
 
     /**
      * Add elements to the edit instance form.
@@ -364,6 +377,15 @@ class enrol_mercadopago_plugin extends enrol_plugin {
         $mform->setDefault('enrolenddate', 0);
         $mform->addHelpButton('enrolenddate', 'enrolenddate', 'enrol_mercadopago');
 
+        $options = $this->get_expirynotify_options();
+        $mform->addElement('select', 'expirynotify', get_string('expirynotify', 'core_enrol'), $options);
+        $mform->addHelpButton('expirynotify', 'expirynotify', 'enrol_mercadopago');
+
+        $options = array('optional' => false, 'defaultunit' => 86400);
+        $mform->addElement('duration', 'expirythreshold', get_string('expirythreshold', 'core_enrol'), $options);
+        $mform->addHelpButton('expirythreshold', 'expirythreshold', 'enrol_mercadopago');
+        $mform->disabledIf('expirythreshold', 'expirynotify', 'eq', 0);
+
         if (enrol_accessing_via_instance($instance)) {
             $warningtext = get_string('instanceeditselfwarningtext', 'core_enrol');
             $mform->addElement('static', 'selfwarn', get_string('instanceeditselfwarning', 'core_enrol'), $warningtext);
@@ -393,9 +415,23 @@ class enrol_mercadopago_plugin extends enrol_plugin {
             $errors['cost'] = get_string('costerror', 'enrol_mercadopago');
         }
 
+        if ($data['expirynotify'] > 0 and $data['expirythreshold'] < 86400) {
+            $errors['expirythreshold'] = get_string('errorthresholdlow', 'core_enrol');
+        }
+
         $validstatus = array_keys($this->get_status_options());
         $validcurrency = array_keys($this->get_currencies());
         $validroles = array_keys($this->get_roleid_options($instance, $context));
+        $validexpirynotify = array_keys($this->get_expirynotify_options());
+
+        $expirynotify = $this->get_config('expirynotify', 0);
+        if ($expirynotify == 2) {
+            $expirynotify = 1;
+            $notifyall = 1;
+        } else {
+            $notifyall = 0;
+        }
+
         $tovalidate = array(
             'name' => PARAM_TEXT,
             'status' => $validstatus,
@@ -403,7 +439,9 @@ class enrol_mercadopago_plugin extends enrol_plugin {
             'roleid' => $validroles,
             'enrolperiod' => PARAM_INT,
             'enrolstartdate' => PARAM_INT,
-            'enrolenddate' => PARAM_INT
+            'enrolenddate' => PARAM_INT,
+            'expirynotify' => $validexpirynotify,
+            'expirythreshold' => PARAM_INT
         );
 
         $typeerrors = $this->validate_param_types($data, $tovalidate);
