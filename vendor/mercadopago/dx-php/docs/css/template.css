@@ -13,7 +13,7 @@ body
 
 a
 {
-    color: #739ebe;
+    color: #55A72F;
 }
 
 td p:last-of-type {
@@ -109,13 +109,13 @@ h2:first-of-type
 
 .hero-unit
 {
-    background: #739ebe; /* Old browsers */
-    background: -moz-radial-gradient(center, ellipse cover, #739ebe 0%, #739ebe 72%, #739ebe 96%, #739ebe 100%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#739ebe), color-stop(72%, #739ebe), color-stop(96%, #739ebe), color-stop(100%, #739ebe)); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover, #739ebe 0%, #739ebe 72%, #739ebe 96%, #739ebe 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover, #739ebe 0%, #739ebe 72%, #739ebe 96%, #739ebe 100%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover, #739ebe 0%, #739ebe 72%, #739ebe 96%, #739ebe 100%); /* IE10+ */
-    background: radial-gradient(center, ellipse cover, #739ebe 0%, #739ebe 72%, #739ebe 96%, #739ebe 100%); /* W3C */
+    background: #75a70d; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #bfd255 0%, #8eb92a 72%, #72aa00 96%, #9ecb2d 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#bfd255), color-stop(72%,#8eb92a), color-stop(96%,#72aa00), color-stop(100%,#9ecb2d)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #bfd255 0%,#8eb92a 72%,#72aa00 96%,#9ecb2d 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #bfd255 0%,#8eb92a 72%,#72aa00 96%,#9ecb2d 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #bfd255 0%,#8eb92a 72%,#72aa00 96%,#9ecb2d 100%); /* IE10+ */
+    background: radial-gradient(center, ellipse cover, #bfd255 0%,#8eb92a 72%,#72aa00 96%,#9ecb2d 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
     padding: 40px 0 15px 0;
