@@ -29,6 +29,7 @@ before_install:
   - phpenv config-rm xdebug.ini
   - cd ../..
   - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
+  - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
   - moodle-plugin-ci install

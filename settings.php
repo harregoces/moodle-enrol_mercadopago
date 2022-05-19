@@ -49,6 +49,13 @@ if ($ADMIN->fulltree) {
     );
     $settings->add(new admin_setting_configselect('enrol_mercadopago/expiredaction', get_string('expiredaction', 'enrol_mercadopago'), get_string('expiredaction_help', 'enrol_mercadopago'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
 
+    $options = array();
+    for ($i=0; $i<24; $i++) {
+        $options[$i] = $i;
+    }
+    $settings->add(new admin_setting_configselect('enrol_mercadopago/expirynotifyhour', get_string('expirynotifyhour', 'core_enrol'), '', 6, $options));
+
+
     //--- enrol instance defaults ----------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_mercadopago_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
@@ -73,4 +80,10 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configduration('enrol_mercadopago/enrolperiod',
         get_string('enrolperiod', 'enrol_mercadopago'), get_string('enrolperiod_desc', 'enrol_mercadopago'), 0));
+
+    $options = array(0 => get_string('no'), 1 => get_string('expirynotifyenroller', 'core_enrol'), 2 => get_string('expirynotifyall', 'core_enrol'));
+    $settings->add(new admin_setting_configselect('enrol_mercadopago/expirynotify', get_string('expirynotify', 'core_enrol'), get_string('expirynotify_help', 'core_enrol'), 0, $options));
+
+    $settings->add(new admin_setting_configduration('enrol_mercadopago/expirythreshold', get_string('expirythreshold', 'core_enrol'), get_string('expirythreshold_help', 'core_enrol'), 86400, 86400));
+
 }
