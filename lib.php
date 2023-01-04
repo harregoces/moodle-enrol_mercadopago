@@ -203,12 +203,7 @@ class enrol_mercadopago_plugin extends enrol_plugin {
                 $userfullname    = fullname($USER);
                 $userfirstname   = $USER->firstname;
                 $userlastname    = $USER->lastname;
-
-                if($CFG->usemercadopagosandbox) {
-	                $useremail       = $CFG->mercadopagosandbox_email;
-                } else {
-	                $useremail       = $USER->email;
-                }
+                $useremail       = $USER->email;
 
                 $instancename    = $this->get_instance_name($instance);
 
@@ -379,11 +374,11 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 
         $options = $this->get_expirynotify_options();
         $mform->addElement('select', 'expirynotify', get_string('expirynotify', 'core_enrol'), $options);
-        $mform->addHelpButton('expirynotify', 'expirynotify', 'enrol_mercadopago');
+        $mform->addHelpButton('expirynotify', 'expirynotify', 'core_enrol');
 
         $options = array('optional' => false, 'defaultunit' => 86400);
         $mform->addElement('duration', 'expirythreshold', get_string('expirythreshold', 'core_enrol'), $options);
-        $mform->addHelpButton('expirythreshold', 'expirythreshold', 'enrol_mercadopago');
+        $mform->addHelpButton('expirythreshold', 'expirythreshold', 'core_enrol');
         $mform->disabledIf('expirythreshold', 'expirynotify', 'eq', 0);
 
         if (enrol_accessing_via_instance($instance)) {

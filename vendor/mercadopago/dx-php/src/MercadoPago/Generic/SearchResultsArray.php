@@ -63,7 +63,7 @@
                 $message['error'],
                 $message['status']
             );
-    
+            
             foreach ($message['cause'] as $causes) { 
                 if(is_array($causes)) {
                     foreach ($causes as $cause) {
