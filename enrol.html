@@ -11,10 +11,7 @@
 
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
-    // Add the SDK credentials
     const mp = new MercadoPago('<?php echo $public_key; ?>');
-
-    // Initialize the checkout
     mp.checkout({
         preference: {
             id: '<?php echo $preference->id; ?>'

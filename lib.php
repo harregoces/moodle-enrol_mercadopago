@@ -207,7 +207,6 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 
                 $instancename    = $this->get_instance_name($instance);
 
-	            // Agrega credenciales
 	            MercadoPago\SDK::setAccessToken($this->get_config('access_token'));
 	            $preference = new MercadoPago\Preference();
 
@@ -216,7 +215,6 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 	            $payer->surname = $userlastname;
 	            $payer->email = $useremail;
 
-				// Crea un ítem en la preferencia
 	            $item = new MercadoPago\Item();
 	            $item->id = $course->id;
 	            $item->title = $coursefullname;
