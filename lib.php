@@ -207,6 +207,7 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 
                 $instancename    = $this->get_instance_name($instance);
 
+	            // Agrega credenciales
 	            MercadoPago\SDK::setAccessToken($this->get_config('access_token'));
 	            $preference = new MercadoPago\Preference();
 
@@ -215,6 +216,7 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 	            $payer->surname = $userlastname;
 	            $payer->email = $useremail;
 
+				// Crea un ítem en la preferencia
 	            $item = new MercadoPago\Item();
 	            $item->id = $course->id;
 	            $item->title = $coursefullname;
@@ -229,12 +231,14 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 		            "failure" => $CFG->wwwroot, //$url."&status=failure",
 		            "pending" => $CFG->wwwroot //$url."&status=pending"
 	            );
-                $preference->auto_return = "approved";
-			    $preference->external_reference =  $course->id."-".$USER->id."-".$instance->id;
+				$preference->external_reference =  $course->id."-".$USER->id."-".$instance->id;
 	            $preference->payer = $payer;
-	            $preference->save();
+				$preference->auto_return = "approved";
+				
+				$preference->save();
 
                 include($CFG->dirroot.'/enrol/mercadopago/enrol.html');
+				
             }
 
         }
