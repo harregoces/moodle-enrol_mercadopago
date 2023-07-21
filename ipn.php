@@ -50,11 +50,22 @@ if (!empty($_POST) or empty($_GET)) {
 }
 
 $data = new stdClass();
-$data->userid = required_param('userid', PARAM_INT);
-$data->courseid = required_param('courseid', PARAM_INT);
-$data->instanceid = required_param('instanceid', PARAM_INT);
-$data->collection_id = required_param('collection_id', PARAM_INT);
-$data->timeupdated = time();
+
+$plugin = enrol_get_plugin('mercadopago');
+
+MercadoPago\SDK::setAccessToken($plugin->get_config('access_token'));
+$payment = MercadoPago\Payment::find_by_id($_GET["data_id"]);
+
+$external_reference = explode("-", $payment->external_reference);
+
+$courseid = $external_reference[0];
+$userid = $external_reference[1];
+$instanceid = $external_reference[2];
+
+$data->userid = $userid;
+$data->courseid = $courseid;
+$data->instanceid = $instanceid;
+$data->collection_id = $_GET["data_id"];
 
 $user = $DB->get_record("user", array("id" => $data->userid), "*", MUST_EXIST);
 $course = $DB->get_record("course", array("id" => $data->courseid), "*", MUST_EXIST);
@@ -63,18 +74,6 @@ $context = context_course::instance($course->id, MUST_EXIST);
 $PAGE->set_context($context);
 
 $plugin_instance = $DB->get_record("enrol", array("id" => $data->instanceid, "enrol" => "mercadopago", "status" => 0), "*", MUST_EXIST);
-$plugin = enrol_get_plugin('mercadopago');
-
-MercadoPago\SDK::setAccessToken($plugin->get_config('access_token'));
-$payment = MercadoPago\Payment::find_by_id($data->collection_id);
-
-$external_reference = $payment->external_reference;
-$data->external_reference = $external_reference;
-$external_reference = explode("-",$external_reference);
-
-$courseid = $external_reference[0];
-$userid = $external_reference[1];
-$instanceid = $external_reference[2];
 
 if($data->userid != $userid) die("Data do not match");
 if($data->courseid != $courseid) die("Data do not match");
