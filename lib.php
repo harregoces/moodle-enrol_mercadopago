@@ -28,8 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 class enrol_mercadopago_plugin extends enrol_plugin {
 
     public function get_currencies() {
-        // Brazilian Real Currency Support
-		$codes = array('BRL', 'COP', 'ARS', 'CLP', 'USD');
+        $codes = array('BRL', 'COP', 'ARS', 'CLP', 'USD');
         $currencies = array();
         foreach ($codes as $c) {
             $currencies[$c] = new lang_string($c, 'core_currencies');
@@ -228,16 +227,18 @@ class enrol_mercadopago_plugin extends enrol_plugin {
 	            $preference->items = array($item);
 	            $url = $CFG->wwwroot."/enrol/mercadopago/ipn.php?instanceid=".$instance->id."&userid=".$USER->id."&courseid=".$course->id;
 	            $preference->back_urls = array(
-		            "success" => $url."&status=success",
-		            "failure" => $url."&status=failure",
-		            "pending" => $url."&status=pending"
+		            "success" => $CFG->wwwroot, //$url."&status=success",
+		            "failure" => $CFG->wwwroot, //$url."&status=failure",
+		            "pending" => $CFG->wwwroot //$url."&status=pending"
 	            );
-                $preference->auto_return = "approved";
-			    $preference->external_reference =  $course->id."-".$USER->id."-".$instance->id;
+				$preference->external_reference =  $course->id."-".$USER->id."-".$instance->id;
 	            $preference->payer = $payer;
-	            $preference->save();
+				$preference->auto_return = "approved";
+				
+				$preference->save();
 
                 include($CFG->dirroot.'/enrol/mercadopago/enrol.html');
+				
             }
 
         }
