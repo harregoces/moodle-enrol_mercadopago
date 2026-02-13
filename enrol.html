@@ -1,3 +1,7 @@
+<?php
+$randId = md5(uniqid(rand(), true) . time());
+?>
+
 <div align="center">
 
 <p><?php print_string("paymentrequired") ?></p>
@@ -6,18 +10,18 @@
 <p><img alt="<?php print_string('accepted', 'enrol_mercadopago') ?>" src="<?php echo "$CFG->wwwroot/enrol/mercadopago/pix/mercadopago.png"?>" /></p>
 <p><?php print_string("paymentinstant") ?></p>
 
-<div class="cho-container">
+<div class="cho-container-<?php echo $randId; ?>">
 </div>
 
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
-    const mp = new MercadoPago('<?php echo $public_key; ?>');
-    mp.checkout({
+    const mp_<?php echo $randId; ?> = new MercadoPago('<?php echo $public_key; ?>');
+    mp_<?php echo $randId; ?>.checkout({
         preference: {
             id: '<?php echo $preference->id; ?>'
         },
         render: {
-            container: '.cho-container',
+            container: '.cho-container-<?php echo $randId; ?>',
             label: 'Pagar',
         }
     });
